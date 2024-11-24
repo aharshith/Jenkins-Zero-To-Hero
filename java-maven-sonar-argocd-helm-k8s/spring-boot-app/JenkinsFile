@@ -1,33 +1,11 @@
 pipeline {
-    agent any // Assuming the Dockerfile exists in the root directory
-
-    stages {
-        stage('Checkout') {
-            steps {
-                echo 'Checking out code'
-                // Uncomment and configure the Git checkout if required
-                // git branch: 'main', url: 'https://github.com/aharshith/Jenkins-ZeroToHero.git'
-            }
-        }
-
-        stage('Build and Test') {
-            environment {
-                SONAR_URL = "http://10.0.2.15:9000" // Ensure SonarQube URL is correct
-            }
-            steps {
-                script {
-                    echo 'Listing files in the workspace'
-                    sh 'ls -ltr'
-
-                    echo 'Building the project with Maven'
-                    sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
-
-                    echo 'Running static code analysis with SonarQube'
-                    withCredentials([string(credentialsId: 'Sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-                        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=$SONAR_URL'
-                    }
-                }
-            }
-        }
+  agent any
+  stages {
+    stage(checkout) {
+      steps (
+        echo 'cloning git repository'
+        git branch: 'main', url: 'https://github.com/aharshith/Jenkins-Zero-To-Hero.git
+      )
     }
+  }
 }
