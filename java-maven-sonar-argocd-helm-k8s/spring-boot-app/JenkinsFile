@@ -1,5 +1,5 @@
 pipeline {
-    agent { dockerfile true } // Assuming the Dockerfile exists in the root directory
+    agent any // Assuming the Dockerfile exists in the root directory
 
     stages {
         stage('Checkout') {
