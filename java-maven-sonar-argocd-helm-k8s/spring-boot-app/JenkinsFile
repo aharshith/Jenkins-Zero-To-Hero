@@ -19,4 +19,11 @@ pipeline {
       image 'alpine'
     }
   }
+  stages {
+    stage ('build'){
+      steps {
+        sh 'echo pass'
+      }
+    }
+  }
 }
