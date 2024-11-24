@@ -1,9 +1,11 @@
 pipeline {
   agent any
   stages {
-    stage('checkout') {
+    stage('Build and Test') {
       steps {
-        git 'https://github.com/aharshith/Jenkins-Zero-To-Hero.git'
+        sh 'ls -ltr'
+        // build the project and create a JAR file
+        sh 'cd spring-boot-app && mvn clean package'
       }
     }
   }
