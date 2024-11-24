@@ -3,8 +3,7 @@ pipeline {
   stages {
     stage(checkout) {
       steps (
-        echo 'cloning git repository'
-        git branch: 'main', url: 'https://github.com/aharshith/Jenkins-Zero-To-Hero.git'
+                git branch: 'main', url: 'https://github.com/aharshith/Jenkins-Zero-To-Hero.git'
       )
     }
   }
