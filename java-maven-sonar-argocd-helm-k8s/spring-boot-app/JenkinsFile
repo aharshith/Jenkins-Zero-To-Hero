@@ -1,14 +1,25 @@
 pipeline {
   agent any
   stages {
+    stage('checkout') {
+      steps {
+        checkout scm
+      }
+    }
     stage('Build') {
       steps {
-        dir(java-maven-sonar-argocd-helm-k8s/spring-boot-app) 
-        {
-        // Run Maven package goal
         sh 'mvn clean package'
-        }
+      }
     }
+    stage('Test') {
+      steps {
+        sh 'mvn test'
+      }
+    }
+    stage('deploy') {
+      steps  {
+        
+      }
     }
   }
 }
