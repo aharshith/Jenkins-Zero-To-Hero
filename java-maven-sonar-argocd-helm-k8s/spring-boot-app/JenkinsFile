@@ -2,9 +2,9 @@ pipeline {
   agent any
   stages {
     stage('checkout') {
-      steps (
+      steps {
         git 'https://github.com/aharshith/Jenkins-Zero-To-Hero.git'
-      )
+      }
     }
   }
 }
