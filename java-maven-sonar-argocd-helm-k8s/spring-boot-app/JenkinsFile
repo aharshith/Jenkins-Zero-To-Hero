@@ -1,71 +1,29 @@
 pipeline {
-    agent { Dockerfile true } // Use Dockerfile to build the image
+    agent { dockerfile true } // Assuming the Dockerfile exists in the root directory
 
     stages {
-        // Stage 1: Checkout
         stage('Checkout') {
             steps {
                 echo 'Checking out code'
-                // Uncomment the line below to actually checkout the code
+                // Uncomment and configure the Git checkout if required
                 // git branch: 'main', url: 'https://github.com/aharshith/Jenkins-ZeroToHero.git'
             }
         }
 
-        // Stage 2: Build, Test, and Static Code Analysis
         stage('Build and Test') {
             environment {
-                SONAR_URL = "http://10.0.2.15:9000" // SonarQube URL for static analysis
+                SONAR_URL = "http://10.0.2.15:9000" // Ensure SonarQube URL is correct
             }
             steps {
                 script {
-                    // List files to verify workspace contents
                     echo 'Listing files in the workspace'
                     sh 'ls -ltr'
 
-                    // Build the project with Maven
                     echo 'Building the project with Maven'
                     sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
 
-                    // Run static code analysis with SonarQube
                     echo 'Running static code analysis with SonarQube'
-                    withCredentials([string(credentialsId: 'sonarqube', variable: 'pipeline {
-    agent { Dockerfile true } // Use Dockerfile to build the image
-
-    stages {
-        // Stage 1: Checkout
-        stage('Checkout') {
-            steps {
-                echo 'Checking out code'
-                // Uncomment the line below to actually checkout the code
-                // git branch: 'main', url: 'https://github.com/aharshith/Jenkins-ZeroToHero.git'
-            }
-        }
-
-        // Stage 2: Build, Test, and Static Code Analysis
-        stage('Build and Test') {
-            environment {
-                SONAR_URL = "http://10.0.2.15:9000" // SonarQube URL for static analysis
-            }
-            steps {
-                script {
-                    // List files to verify workspace contents
-                    echo 'Listing files in the workspace'
-                    sh 'ls -ltr'
-
-                    // Build the project with Maven
-                    echo 'Building the project with Maven'
-                    sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
-
-                    // Run static code analysis with SonarQube
-                    echo 'Running static code analysis with SonarQube'
-                    withCredentials([string(credentialsId: 'Sonarque', variable: 'SONAR_AUTH_TOKEN')]) {
-                        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=$SONAR_URL'
-                    }
-                }
-            }
-        }
-    }
-}')]) {
+                    withCredentials([string(credentialsId: 'Sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=$SONAR_URL'
                     }
                 }
