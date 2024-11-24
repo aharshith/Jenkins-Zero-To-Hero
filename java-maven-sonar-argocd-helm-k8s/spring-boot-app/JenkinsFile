@@ -1,4 +1,4 @@
-pipeline {
+/*pipeline {
   agent any
   stages {
     stage('Build and Test') {
@@ -9,6 +9,14 @@ pipeline {
         // Change directory and build the Maven project
         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
       }
+    }
+  }
+}*/
+
+pipeline {
+  agent{
+    docker{
+      image 'alpine'
     }
   }
 }
